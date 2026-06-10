@@ -11,17 +11,11 @@
   }
 }
 
-.header {
-  max-width: 1400px;
-  margin: 0 auto 2rem auto;
-  text-align: left;
-}
-
 .main-layout {
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 45% 55%;
+  grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
   
   @include tablet {

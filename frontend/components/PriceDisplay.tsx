@@ -1,6 +1,10 @@
 'use client';
 
 import { PredictionResponse } from '@/types/apartment';
+import {
+  TrendingUp,
+  Shield,
+} from 'lucide-react';
 
 interface PriceDisplayProps {
   result: PredictionResponse | null;
@@ -39,9 +43,13 @@ export const PriceDisplay = ({ result }: PriceDisplayProps) => {
       </div>
       
       <div className="range-card">
-        <div className="range-title">Ориентировочный диапазон стоимости</div>
+        <div className="range-header">
+          <TrendingUp size={32} />
+          <div className="range-title">Ориентировочный диапазон стоимости</div>
+        </div>
         <div className="range-values">
           <span className="range-min">{formatMillions(result.min_price)} млн ₸</span>
+          <span className="range-dash">—</span>
           <span className="range-max">{formatMillions(result.max_price)} млн ₸</span>
         </div>
         <div className="range-bar">
@@ -58,10 +66,18 @@ export const PriceDisplay = ({ result }: PriceDisplayProps) => {
           <span>Оценка модели</span>
           <span className="positive">+{result.mape}%</span>
         </div>
+        <div className="range-note">
+          Диапазон рассчитан с учетом ошибки (MAPE {result.mape}%)
+        </div>
       </div>
       
       <div className="info-card">
-        <div className="info-title">Важно</div>
+        <div className="info-header">
+          <div className="icon-box">
+            <Shield size={20} />
+          </div>
+          <div className="info-title">Важно</div>
+        </div>
         <div className="info-text">
           Это предварительная оценка, полученная с помощью ML-модели.
           Фактическая стоимость может отличаться в зависимости от деталей объявления и рыночной ситуации.

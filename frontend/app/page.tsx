@@ -10,6 +10,7 @@ import {
   Building2,
   SlidersHorizontal,
   BadgeDollarSign,
+  TrendingUp,
 } from 'lucide-react';
 
 export default function Home() {
@@ -34,11 +35,24 @@ export default function Home() {
   return (
     <div className="app-container">
       <div className="header">
-        <div className="logo">
-          <Building2 size={32} />
-          <h1>DomPrice</h1>
-        </div>
+        <div className="header-top">
+          <div className="logo">
+            <Building2 size={32} />
+            <h1>DomPrice</h1>
+          </div>
 
+          {result && (
+            <div className="accuracy-card">
+              <div className="icon-box">
+                <TrendingUp size={32} />
+              </div>
+              <div className="accuracy-info">
+                <div className="accuracy-header">Точность модели (MAPE)</div>
+                <div className="accuracy-value">{result.mape}%</div>
+              </div>
+            </div>
+          )}
+        </div>
         <div className="subtitle">
           Оценка рыночной стоимости квартиры в Казахстане
         </div>
