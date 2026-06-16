@@ -102,7 +102,7 @@ export const ApartmentForm = ({ onSubmit, isLoading }: ApartmentFormProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-grid">
-        {/* Левая колонка - Селекты */}
+        {/* Left Column */}
         <div className="form-left-column">
           <Select
             label="Город"
@@ -156,7 +156,7 @@ export const ApartmentForm = ({ onSubmit, isLoading }: ApartmentFormProps) => {
           />
         </div>
         
-        {/* Правая колонка - Числовые поля */}
+        {/* Right Column */}
         <div className="form-right-column">
           <NumberInput
             label="Количество комнат"
@@ -182,17 +182,6 @@ export const ApartmentForm = ({ onSubmit, isLoading }: ApartmentFormProps) => {
           />
           
           <NumberInput
-            label="Этаж"
-            value={formData.floor}
-            onChange={(value) => handleNumberChange('floor', value)}
-            min={1}
-            max={formData.total_floors || 100}
-            step={1}
-            placeholder="Например, 5"
-            required
-          />
-          
-          <NumberInput
             label="Этажность дома"
             value={formData.total_floors}
             onChange={(value) => handleNumberChange('total_floors', value)}
@@ -203,6 +192,17 @@ export const ApartmentForm = ({ onSubmit, isLoading }: ApartmentFormProps) => {
             required
           />
           
+          <NumberInput
+            label="Этаж"
+            value={formData.floor}
+            onChange={(value) => handleNumberChange('floor', value)}
+            min={1}
+            max={formData.total_floors || 100}
+            step={1}
+            placeholder="Например, 5"
+            required
+          />
+
           <NumberInput
             label="Высота потолков, м"
             value={formData.ceiling_height}
