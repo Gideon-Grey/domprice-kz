@@ -9,16 +9,28 @@ export type Option = {
   label: string;
 };
 
-type ApiResponse<T> = T | { [key: string]: T };
+function extractOptions(data: unknown, key: string): Option[] {
+  if (!data || typeof data !== 'object') return [];
+  
+  const response = data as Record<string, unknown>;
+  
+  if (!response[key] || !Array.isArray(response[key])) return [];
+  
+  const items = response[key] as unknown[];
+  
+  if (items.length === 0) return [];
 
-function extractArray<T>(data: ApiResponse<T[]>, key: string): T[] {
-  if (Array.isArray(data)) return data;
-
-  if (data && typeof data === 'object' && key in data) {
-    const value = (data as Record<string, T[]>)[key];
-    if (Array.isArray(value)) return value;
+  if (typeof items[0] === 'object' && items[0] !== null && 'value' in items[0] && 'label' in items[0]) {
+    return items as Option[];
   }
-
+  
+  if (typeof items[0] === 'string') {
+    return (items as string[]).map((item: string) => ({
+      value: item,
+      label: item,
+    }));
+  }
+  
   return [];
 }
 
@@ -28,8 +40,14 @@ export const api = {
       const response = await fetch(
         `${API_BASE_URL}/options/cities?lang=${encodeURIComponent(lang)}`
       );
-      const data = await response.json();
-      return extractArray<Option>(data, 'cities');
+      
+      if (!response.ok) {
+        console.error(`API Error: ${response.status}`);
+        return [];
+      }
+      
+      const data: unknown = await response.json();
+      return extractOptions(data, 'cities');
     } catch (error) {
       console.error('Error fetching cities:', error);
       return [];
@@ -43,8 +61,14 @@ export const api = {
           city
         )}&lang=${encodeURIComponent(lang)}`
       );
-      const data = await response.json();
-      return extractArray<Option>(data, 'districts');
+      
+      if (!response.ok) {
+        console.error(`API Error: ${response.status}`);
+        return [];
+      }
+      
+      const data: unknown = await response.json();
+      return extractOptions(data, 'districts');
     } catch (error) {
       console.error('Error fetching districts:', error);
       return [];
@@ -66,9 +90,14 @@ export const api = {
       }
 
       const response = await fetch(url);
-      const data = await response.json();
-
-      return extractArray<Option>(data, 'residential_complexes');
+      
+      if (!response.ok) {
+        console.error(`API Error: ${response.status}`);
+        return [];
+      }
+      
+      const data: unknown = await response.json();
+      return extractOptions(data, 'residential_complexes');
     } catch (error) {
       console.error('Error fetching residential complexes:', error);
       return [];
@@ -80,9 +109,14 @@ export const api = {
       const response = await fetch(
         `${API_BASE_URL}/options/house-types?lang=${encodeURIComponent(lang)}`
       );
-      const data = await response.json();
-
-      return extractArray<Option>(data, 'house_types');
+      
+      if (!response.ok) {
+        console.error(`API Error: ${response.status}`);
+        return [];
+      }
+      
+      const data: unknown = await response.json();
+      return extractOptions(data, 'house_types');
     } catch (error) {
       console.error('Error fetching house types:', error);
       return [];
@@ -94,9 +128,14 @@ export const api = {
       const response = await fetch(
         `${API_BASE_URL}/options/conditions?lang=${encodeURIComponent(lang)}`
       );
-      const data = await response.json();
-
-      return extractArray<Option>(data, 'conditions');
+      
+      if (!response.ok) {
+        console.error(`API Error: ${response.status}`);
+        return [];
+      }
+      
+      const data: unknown = await response.json();
+      return extractOptions(data, 'conditions');
     } catch (error) {
       console.error('Error fetching conditions:', error);
       return [];
@@ -108,9 +147,14 @@ export const api = {
       const response = await fetch(
         `${API_BASE_URL}/options/bathrooms?lang=${encodeURIComponent(lang)}`
       );
-      const data = await response.json();
-
-      return extractArray<Option>(data, 'bathrooms');
+      
+      if (!response.ok) {
+        console.error(`API Error: ${response.status}`);
+        return [];
+      }
+      
+      const data: unknown = await response.json();
+      return extractOptions(data, 'bathrooms');
     } catch (error) {
       console.error('Error fetching bathrooms:', error);
       return [];

@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { api } from '@/lib/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface UseFormDataReturn {
   cities: { value: string; label: string }[];
@@ -16,6 +17,8 @@ interface UseFormDataReturn {
 }
 
 export const useFormData = (): UseFormDataReturn => {
+  const { language } = useLanguage();
+  
   const [cities, setCities] = useState<{ value: string; label: string }[]>([]);
   const [districts, setDistricts] = useState<{ value: string; label: string }[]>([]);
   const [residentialComplexes, setResidentialComplexes] = useState<{ value: string; label: string }[]>([]);
@@ -26,19 +29,17 @@ export const useFormData = (): UseFormDataReturn => {
   const [isLoadingDistricts, setIsLoadingDistricts] = useState(false);
   const [isLoadingComplexes, setIsLoadingComplexes] = useState(false);
   
-  const staticDataLoaded = useRef(false);
-
   useEffect(() => {
-    if (staticDataLoaded.current) return;
-    staticDataLoaded.current = true;
-    
     const loadStaticData = async () => {
+      console.log('Loading static data with language:', language); // Для отладки
+      
       const [citiesData, houseTypesData, conditionsData, bathroomsData] = await Promise.all([
-        api.getCities(),
-        api.getHouseTypes(),
-        api.getConditions(),
-        api.getBathrooms(),
+        api.getCities(language),
+        api.getHouseTypes(language),
+        api.getConditions(language),
+        api.getBathrooms(language),
       ]);
+      
       setCities(citiesData);
       setHouseTypes(houseTypesData);
       setConditions(conditionsData);
@@ -46,7 +47,7 @@ export const useFormData = (): UseFormDataReturn => {
     };
     
     loadStaticData();
-  }, []);
+  }, [language]);
 
   const loadDistricts = useCallback(async (city: string) => {
     if (!city) {
@@ -54,10 +55,10 @@ export const useFormData = (): UseFormDataReturn => {
       return;
     }
     setIsLoadingDistricts(true);
-    const districtsData = await api.getDistricts(city);
+    const districtsData = await api.getDistricts(city, language);
     setDistricts(districtsData);
     setIsLoadingDistricts(false);
-  }, []);
+  }, [language]);
 
   const loadResidentialComplexes = useCallback(async (city: string, district: string) => {
     if (!city || !district) {
@@ -65,10 +66,10 @@ export const useFormData = (): UseFormDataReturn => {
       return;
     }
     setIsLoadingComplexes(true);
-    const complexesData = await api.getResidentialComplexes(city, district);
+    const complexesData = await api.getResidentialComplexes(city, district, language);
     setResidentialComplexes(complexesData);
     setIsLoadingComplexes(false);
-  }, []);
+  }, [language]);
 
   return {
     cities,
