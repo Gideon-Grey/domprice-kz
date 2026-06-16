@@ -5,6 +5,7 @@ import { Select } from '@/components/ui/Select';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { ApartmentFeatures } from '@/types/apartment';
 import { useFormData } from '@/hooks/useFormData';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ApartmentFormProps {
   onSubmit: (data: ApartmentFeatures) => void;
@@ -12,6 +13,8 @@ interface ApartmentFormProps {
 }
 
 export const ApartmentForm = ({ onSubmit, isLoading }: ApartmentFormProps) => {
+  const { t } = useLanguage();
+  
   const {
     cities,
     districts,
@@ -92,7 +95,7 @@ export const ApartmentForm = ({ onSubmit, isLoading }: ApartmentFormProps) => {
     });
     
     if (!isAllSelectsFilled || !isAllNumbersValid) {
-      alert('Пожалуйста, заполните все поля формы');
+      alert(t('form.validation.required'));
       return;
     }
     
@@ -102,134 +105,138 @@ export const ApartmentForm = ({ onSubmit, isLoading }: ApartmentFormProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-grid">
-        {/* Left Column */}
         <div className="form-left-column">
           <Select
-            label="Город"
+            label={t('form.fields.city')}
             options={cities}
             value={formData.city}
             onChange={(e) => handleSelectChange('city', e.target.value)}
             required
             disabled={isLoadingCities}
+            placeholder={t('form.placeholders.select')}
           />
           
           <Select
-            label="Район"
+            label={t('form.fields.district')}
             options={districts}
             value={formData.district}
             onChange={(e) => handleSelectChange('district', e.target.value)}
             required
             disabled={!formData.city || isLoadingDistricts}
+            placeholder={t('form.placeholders.select')}
           />
           
           <Select
-            label="Жилой комплекс"
+            label={t('form.fields.residential_complex')}
             options={residentialComplexes}
             value={formData.residential_complex}
             onChange={(e) => handleSelectChange('residential_complex', e.target.value)}
             required
             disabled={!formData.district || isLoadingComplexes}
+            placeholder={t('form.placeholders.select')}
           />
           
           <Select
-            label="Тип дома"
+            label={t('form.fields.house_type')}
             options={houseTypes}
             value={formData.house_type}
             onChange={(e) => handleSelectChange('house_type', e.target.value)}
             required
+            placeholder={t('form.placeholders.select')}
           />
           
           <Select
-            label="Состояние"
+            label={t('form.fields.condition')}
             options={conditions}
             value={formData.condition}
             onChange={(e) => handleSelectChange('condition', e.target.value)}
             required
+            placeholder={t('form.placeholders.select')}
           />
           
           <Select
-            label="Санузел"
+            label={t('form.fields.bathroom')}
             options={bathrooms}
             value={formData.bathroom}
             onChange={(e) => handleSelectChange('bathroom', e.target.value)}
             required
+            placeholder={t('form.placeholders.select')}
           />
         </div>
         
-        {/* Right Column */}
         <div className="form-right-column">
           <NumberInput
-            label="Количество комнат"
+            label={t('form.fields.rooms')}
             value={formData.rooms}
             onChange={(value) => handleNumberChange('rooms', value)}
             min={1}
             max={20}
             step={1}
-            placeholder="Например, 3"
+            placeholder={t('form.placeholders.rooms')}
             required
           />
           
           <NumberInput
-            label="Площадь, м²"
+            label={t('form.fields.area')}
             value={formData.area}
             onChange={(value) => handleNumberChange('area', value)}
             min={0.1}
             max={1000}
             step={0.1}
             stepPrecision={1}
-            placeholder="Например, 75.5"
+            placeholder={t('form.placeholders.area')}
             required
           />
           
           <NumberInput
-            label="Этажность дома"
+            label={t('form.fields.total_floors')}
             value={formData.total_floors}
             onChange={(value) => handleNumberChange('total_floors', value)}
             min={1}
             max={50}
             step={1}
-            placeholder="Например, 16"
+            placeholder={t('form.placeholders.total_floors')}
             required
           />
           
           <NumberInput
-            label="Этаж"
+            label={t('form.fields.floor')}
             value={formData.floor}
             onChange={(value) => handleNumberChange('floor', value)}
             min={1}
             max={formData.total_floors || 100}
             step={1}
-            placeholder="Например, 5"
+            placeholder={t('form.placeholders.floor')}
             required
           />
 
           <NumberInput
-            label="Высота потолков, м"
+            label={t('form.fields.ceiling_height')}
             value={formData.ceiling_height}
             onChange={(value) => handleNumberChange('ceiling_height', value)}
             min={1}
             max={5}
             step={0.1}
             stepPrecision={1}
-            placeholder="Например, 3.0"
+            placeholder={t('form.placeholders.ceiling_height')}
             required
           />
           
           <NumberInput
-            label="Год постройки"
+            label={t('form.fields.year_built')}
             value={formData.year_built}
             onChange={(value) => handleNumberChange('year_built', value)}
             min={1500}
             max={2026}
             step={1}
-            placeholder="Например, 2020"
+            placeholder={t('form.placeholders.year_built')}
             required
           />
         </div>
       </div>
       
       <button type="submit" className="submit-btn" disabled={isLoading}>
-        {isLoading ? <span className="loader"></span> : 'Рассчитать стоимость'}
+        {isLoading ? <span className="loader"></span> : t('form.submit')}
       </button>
     </form>
   );

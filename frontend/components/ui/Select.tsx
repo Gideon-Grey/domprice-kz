@@ -1,10 +1,25 @@
+'use client';
+
+import React from 'react';
+
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
   options: Array<{ value: string; label: string }>;
   required?: boolean;
+  placeholder?: string; 
 }
 
-export const Select = ({ label, options, required, id, value, ...props }: SelectProps) => {
+export const Select = ({ 
+  label, 
+  options, 
+  required, 
+  id, 
+  value, 
+  placeholder,
+  ...props 
+}: SelectProps) => {
+  const defaultPlaceholder = placeholder || `Выберите ${label.toLowerCase()}`;
+
   return (
     <div className="form-group">
       <label htmlFor={id} className="form-label">
@@ -20,7 +35,7 @@ export const Select = ({ label, options, required, id, value, ...props }: Select
         {...props}
       >
         <option value="" disabled hidden>
-          Выберите {label.toLowerCase()}
+          {defaultPlaceholder}
         </option>
 
         {options.map((option) => (
