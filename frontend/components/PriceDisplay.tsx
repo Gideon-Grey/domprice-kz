@@ -1,6 +1,7 @@
 'use client';
 
 import { PredictionResponse } from '@/types/apartment';
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   TrendingUp,
   Shield,
@@ -11,12 +12,14 @@ interface PriceDisplayProps {
 }
 
 export const PriceDisplay = ({ result }: PriceDisplayProps) => {
+  const { t } = useLanguage();
+
   if (!result) {
     return (
       <div className="result-placeholder">
         <div>
-          <p style={{ fontSize: '1.125rem', marginBottom: '0.5rem' }}>Введите параметры квартиры</p>
-          <p style={{ fontSize: '0.875rem' }}>и нажмите «Рассчитать стоимость» для получения прогноза</p>
+          <p style={{ fontSize: '1.125rem', marginBottom: '0.5rem' }}>{t('result.placeholder.title')}</p>
+          <p style={{ fontSize: '0.875rem' }}>{t('result.placeholder.description')}</p>
         </div>
       </div>
     );
@@ -33,41 +36,35 @@ export const PriceDisplay = ({ result }: PriceDisplayProps) => {
   return (
     <div className="result-content">
       <div className="price-main">
-        <div className="price-label">Оценочная стоимость квартиры</div>
+        <div className="price-label">{t('result.estimatedPrice')}</div>
         <div className="price-value">{formatPrice(result.price)} ₸</div>
       </div>
       
       <div className="price-per-meter">
-        <div className="label">Цена за квадратный метр</div>
+        <div className="label">{t('result.pricePerMeter')}</div>
         <div className="value">{formatPrice(result.price_per_m2)} ₸ / м²</div>
       </div>
       
       <div className="range-card">
         <div className="range-header">
           <TrendingUp size={32} />
-          <div className="range-title">Ориентировочный диапазон стоимости</div>
+          <div className="range-title">{t('result.rangeTitle')}</div>
         </div>
         <div className="range-values">
-          <span className="range-min">{formatMillions(result.min_price)} млн ₸</span>
+          <span className="range-min">{formatMillions(result.min_price)} {t('result.million')} ₸</span>
           <span className="range-dash">—</span>
-          <span className="range-max">{formatMillions(result.max_price)} млн ₸</span>
+          <span className="range-max">{formatMillions(result.max_price)} {t('result.million')} ₸</span>
         </div>
         <div className="range-bar">
-          <div 
-            className="range-fill" 
-            style={{ 
-              left: '0%', 
-              width: '100%' 
-            }}
-          />
+          <div className="range-fill" />
         </div>
         <div className="range-percent">
           <span className="negative">-{result.mape}%</span>
-          <span>Оценка модели</span>
+          <span>{t('result.modelEstimate')}</span>
           <span className="positive">+{result.mape}%</span>
         </div>
         <div className="range-note">
-          Диапазон рассчитан с учетом ошибки (MAPE {result.mape}%)
+          {t('result.rangeNote')} {result.mape}%
         </div>
       </div>
       
@@ -76,11 +73,10 @@ export const PriceDisplay = ({ result }: PriceDisplayProps) => {
           <div className="icon-box">
             <Shield size={20} />
           </div>
-          <div className="info-title">Важно</div>
+          <div className="info-title">{t('result.important')}</div>
         </div>
         <div className="info-text">
-          Это предварительная оценка, полученная с помощью ML-модели.
-          Фактическая стоимость может отличаться в зависимости от деталей объявления и рыночной ситуации.
+          {t('result.importantText')}
         </div>
       </div>
     </div>

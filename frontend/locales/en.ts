@@ -1,0 +1,57 @@
+export const en = {
+  app: {
+    title: 'DomPrice',
+    subtitle: 'Market value estimation of apartments in Kazakhstan',
+  },
+  accuracy: {
+    title: 'Model Accuracy (MAPE)',
+  },
+  form: {
+    title: 'Apartment Parameters',
+    subtitle: 'Fill in the property characteristics',
+    submit: 'Calculate Price',
+    loading: 'Loading...',
+    fields: {
+      city: 'City',
+      district: 'District',
+      residential_complex: 'Residential Complex',
+      house_type: 'House Type',
+      condition: 'Condition',
+      bathroom: 'Bathroom',
+      rooms: 'Number of Rooms',
+      area: 'Area, m²',
+      floor: 'Floor',
+      total_floors: 'Total Floors',
+      ceiling_height: 'Ceiling Height, m',
+      year_built: 'Year Built',
+    },
+    placeholders: {
+      select: 'Select...',
+      rooms: 'e.g., 3',
+      area: 'e.g., 75.5',
+      floor: 'e.g., 5',
+      total_floors: 'e.g., 16',
+      ceiling_height: 'e.g., 3.0',
+      year_built: 'e.g., 2020',
+    },
+    validation: {
+      required: 'Please fill in all form fields',
+    },
+  },
+  result: {
+    title: 'Valuation Result',
+    placeholder: {
+      title: 'Enter apartment parameters',
+      description: 'and click "Calculate Price" to get a prediction',
+    },
+    estimatedPrice: 'Estimated Apartment Price',
+    pricePerMeter: 'Price per Square Meter',
+    rangeTitle: 'Estimated Price Range',
+    rangeNote: 'Range calculated considering model error (MAPE)',
+    important: 'Important',
+    importantText: 'This is a preliminary estimate obtained using an ML model. The actual price may vary depending on listing details and market conditions.',
+    error: 'An error occurred',
+    million: 'M',
+    modelEstimate: 'Model Estimate',
+  },
+};

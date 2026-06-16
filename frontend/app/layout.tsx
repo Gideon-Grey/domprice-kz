@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import "./globals.scss";
 
 export const metadata: Metadata = {
-  title: "DomPrice | Оценка стоимости недвижимости в Казахстане",
-  description: "Платформа для оценки рыночной стоимости квартир в Казахстане с использованием AI",
+  title: "DomPrice - Оценка стоимости квартир",
+  description: "ML модель для оценки рыночной стоимости квартир в Казахстане",
 };
 
 export default function RootLayout({
@@ -13,7 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body>{children}</body>
+      <body>
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+      </body>
     </html>
   );
 }

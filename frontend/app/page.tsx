@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { ApartmentForm } from '@/components/forms/ApartmentForm';
 import { PriceDisplay } from '@/components/PriceDisplay';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { ApartmentFeatures, PredictionResponse } from '@/types/apartment';
 import { api } from '@/lib/api';
 
@@ -17,6 +19,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<PredictionResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   const handleSubmit = async (data: ApartmentFeatures) => {
     setIsLoading(true);
@@ -26,7 +29,7 @@ export default function Home() {
       const prediction = await api.predict(data);
       setResult(prediction);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Произошла ошибка');
+      setError(err instanceof Error ? err.message : t('result.error'));
     } finally {
       setIsLoading(false);
     }
@@ -38,23 +41,27 @@ export default function Home() {
         <div className="header-top">
           <div className="logo">
             <Building2 size={32} />
-            <h1>DomPrice</h1>
+            <h1>{t('app.title')}</h1>
           </div>
 
-          {result && (
-            <div className="accuracy-card">
-              <div className="icon-box">
-                <TrendingUp size={32} />
+          <div className="header-actions">
+            <LanguageSwitcher />
+
+            {result && (
+              <div className="accuracy-card">
+                <div className="icon-box">
+                  <TrendingUp size={32} />
+                </div>
+                <div className="accuracy-info">
+                  <div className="accuracy-header">{t('accuracy.title')}</div>
+                  <div className="accuracy-value">{result.mape}%</div>
+                </div>
               </div>
-              <div className="accuracy-info">
-                <div className="accuracy-header">Точность модели (MAPE)</div>
-                <div className="accuracy-value">{result.mape}%</div>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         <div className="subtitle">
-          Оценка рыночной стоимости квартиры в Казахстане
+          {t('app.subtitle')}
         </div>
       </div>
 
@@ -64,11 +71,11 @@ export default function Home() {
             <div className="icon-box">
               <SlidersHorizontal size={20} />
             </div>
-            <span>Параметры квартиры</span>
+            <span>{t('form.title')}</span>
           </div>
 
           <div className="card-subtitle">
-            Заполните характеристики объекта
+            {t('form.subtitle')}
           </div>
 
           <ApartmentForm
@@ -82,7 +89,7 @@ export default function Home() {
             <div className="icon-box">
               <BadgeDollarSign size={20} />
             </div>
-            <span>Результат оценки</span>
+            <span>{t('result.title')}</span>
           </div>
 
           {error ? (
