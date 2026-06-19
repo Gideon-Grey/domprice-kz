@@ -29,3 +29,7 @@ reports/*.json
 # system
 .DS_Store
 Thumbs.db
+
+# dump
+save-structure.bat
+structure.txt

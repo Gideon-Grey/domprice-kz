@@ -41,6 +41,21 @@ Main features include:
 
 ---
 
+## 🌐 Frontend
+
+* Next.js 16
+* React 19
+* TypeScript
+* SCSS
+* Lucide React
+
+## 🎨 UI/UX Features
+
+* Responsive Language Toggle
+The language switcher is designed to be:
+* Accessible — keyboard navigable with proper ARIA labels
+* Visual — shows current language with indicator
+* Mobile-friendly — optimized for touch interactions
 ## ⚙️ Feature Engineering
 
 Several additional features were created.
@@ -165,21 +180,6 @@ Swagger UI:
 ```text
 http://127.0.0.1:8000/docs
 ```
-
----
-
-## 🛠️ Tech Stack
-
-* Python
-* Pandas
-* NumPy
-* Scikit-Learn
-* CatBoost
-* MLflow
-* FastAPI
-* Geopy
-
----
 
 ## 🔮 Future Improvements
 
