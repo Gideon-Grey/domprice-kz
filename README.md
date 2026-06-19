@@ -6,6 +6,7 @@ The model predicts the price per square meter using apartment characteristics, b
 
 Demo
 
+
 Live: https://domprice-kz.vercel.app/
 
 ---
