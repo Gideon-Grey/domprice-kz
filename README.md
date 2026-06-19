@@ -149,6 +149,7 @@ Prediction_pr_KZ/
 │
 ├── api/
 ├── data/
+├── frontend/
 ├── models/
 ├── notebooks/
 ├── reports/
