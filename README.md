@@ -4,8 +4,6 @@ A machine learning project for estimating apartment prices in Kazakhstan based o
 
 The model predicts the price per square meter using apartment characteristics, building features, and geographic information.
 
-Demo
-
 
 Live: https://domprice-kz.vercel.app/
 
